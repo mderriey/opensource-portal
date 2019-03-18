@@ -46,6 +46,7 @@
     "compression": "1.7.2",
     "connect-redis": "3.3.3",
     "debug": "3.1.0",
+    "documentdb": "^1.15.3",
     "express": "4.16.3",
     "express-session": "1.15.6",
     "express-sslify": "1.2.0",
