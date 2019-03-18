@@ -15,7 +15,7 @@ const linkedUserRoute = require('./index-linked');
 const linkCleanupRoute = require('./link-cleanup');
 const placeholdersRoute = require('./placeholders');
 const settingsRoute = require('./settings');
-const releasesSpa = require('./releasesSpa');
+// const releasesSpa = require('./releasesSpa');
 const usernameConsistency = require('../middleware/links/usernameConsistency');
 const utils = require('../utils');
 
@@ -79,7 +79,7 @@ router.use('/link', linkRoute);
 
 router.use('/settings', settingsRoute);
 
-router.use('/releases', releasesSpa);
+// router.use('/releases', releasesSpa);
 
 // Link cleanups
 router.use(usernameConsistency());
