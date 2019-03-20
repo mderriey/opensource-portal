@@ -10,14 +10,52 @@ This lists the configuration settings we figured out the app needs so far.
 
 ## GitHub organizations file
 
-While this is needed for the app to boot, there's still a few unknowns:
+This file is used as a data source for organizations the app is supposed to interact with.
 
-- what the file is used for;
-- what the structure of the JSON file is
+### Environment variable name
+
+The app uses an environment variable to discover where to load the file from.
 
 | Environment variable name   | Description                                                     |
 |-----------------------------|-----------------------------------------------------------------|
 | `GITHUB_ORGANIZATIONS_FILE` | The name of a JSON file that must exist in the `data` directory |
+
+### Notes
+
+There are other ways for the app to find the file containing the GitHub organizations.
+See [code on GitHub](https://github.com/Microsoft/opensource-portal/blob/master/config/github.organizations.js)
+
+## Structure of the GitHub organizations file
+
+This structure was found by digging in the code, hence it's not complete, in the sense that there are other properties you can define for each organizations.
+The file defines an array of objects, each representing an organization; it's valid to have only one organization.
+
+| Property name       | Type     | Description                                                                                                                                  |
+|---------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| `name`              | `string` | The name of the organization in GitHub                                                                                                       |
+| `description`       | `string` | A description for the organization, shown in the opensource portal                                                                           |
+| `ownerToken`        | `string` | A GitHub personal access token (PAT) used for API calls; see notes below                                                                     |
+| `type`              | `string` | Defines what types of repositories the organization can contain; see notes below                                                             |
+| `teamAllMembers`    | `number` | The ID of the GitHub team in which people who link their accounts will be automatically added                                                |
+| `teamRepoApprovers` | `number` | The ID of the GitHub team whose members get notifications when people request the creation of a new repository through the opensource portal |
+| `notificationRepo`  | `string` | Name of the repository used to create repository creation requests notifications                                                             |
+| `teamPortalSudoers` | `number` | The ID of a GitHub team; don't know what it drives                                                                                           |
+| `teamSudoers`       | `number` | The ID of a GitHub team; don't know what it drives                                                                                           |
+
+### Notes
+
+#### `ownerToken`
+
+We're not sure exactly what scopes the personal access token needs to have, our currently running application has one with the `repo` and `admin:org` scopes.
+Tokens can't be created at the organization level, so they need to be created from an account who is an admin or an owner of the organization.
+
+#### `type`
+
+We found these 3 values in the code, the meaning is an assumption:
+
+- `public` &mdash; the organization contains only public repositories;
+- `private` &mdash; the organization contains only private repositories;
+- `publicprivate` &mdash; the organization contains a mix of public and private repositories
 
 ## Azure storage account
 
