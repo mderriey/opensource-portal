@@ -11,6 +11,7 @@ const common = require('./common');
 const Collaborator = require('./collaborator');
 const RepositoryPermission = require('./repositoryPermission');
 const TeamPermission = require('./teamPermission');
+const OpenSourceUserContext = require('../lib/context')
 
 const githubEntityClassification = require('../data/github-entity-classification.json');
 const repoPrimaryProperties = githubEntityClassification.repo.keep;
@@ -274,6 +275,41 @@ class Repository {
     }
     let createFileToken = options.alternateToken || token;
     github.post(createFileToken, 'repos.createFile', parameters, callback);
+  }
+
+  
+
+  createIssue(issue, callback) {
+    const destructured = getGitHubClient(this); // const [github, token] = getGitHubClient(this);
+    const github = destructured[0];
+    const token = destructured[1];
+
+    const parameters = {
+      owner: this.organization.name,
+      repo: this.name,
+      title: issue.title,
+      body: issue.body
+    };
+
+    github.post(token, 'issues.create', parameters, callback);
+  }
+
+  updateIssue(issueNumber, patch, callback) {
+    const assignee = patch.assignee
+
+    const destructured = getGitHubClient(this); // const [github, token] = getGitHubClient(this);
+    const github = destructured[0];
+    const token = destructured[1];
+
+    const parameters = {
+      owner: this.organization.name,
+      repo: this.name,
+      number: issueNumber,
+      assignees: [assignee]
+    };
+
+    github.post(token, 'issues.edit', parameters, callback);
+
   }
 
   setTeamPermission(teamId, newPermission, callback) {
