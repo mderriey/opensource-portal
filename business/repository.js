@@ -276,8 +276,6 @@ class Repository {
     github.post(createFileToken, 'repos.createFile', parameters, callback);
   }
 
-  
-
   createIssue(issue, callback) {
     const destructured = getGitHubClient(this); // const [github, token] = getGitHubClient(this);
     const github = destructured[0];
