@@ -11,7 +11,6 @@ const common = require('./common');
 const Collaborator = require('./collaborator');
 const RepositoryPermission = require('./repositoryPermission');
 const TeamPermission = require('./teamPermission');
-const OpenSourceUserContext = require('../lib/context')
 
 const githubEntityClassification = require('../data/github-entity-classification.json');
 const repoPrimaryProperties = githubEntityClassification.repo.keep;
